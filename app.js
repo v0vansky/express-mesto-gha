@@ -3,6 +3,9 @@ const mongoose = require('mongoose');
 const helmet = require('helmet');
 const usersRouter = require('./routes/users');
 const cardsRouter = require('./routes/cards');
+const {
+  NotFound,
+} = require('./utils/errors');
 
 const { PORT = 3000 } = process.env;
 const app = express();
@@ -25,7 +28,7 @@ app.use((req, res, next) => {
 app.use('/users', usersRouter);
 app.use('/cards', cardsRouter);
 app.use('*', (req, res) => {
-  res.status(404).send({ message: 'Указанный путь не найден.' });
+  res.status(NotFound).send({ message: 'Указанный путь не найден.' });
 });
 
 app.listen(PORT, () => console.log(`App started at port ${PORT}`));

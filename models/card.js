@@ -11,8 +11,6 @@ const cardSchema = new mongoose.Schema(
     },
     link: {
       type: String,
-      minlength: 2,
-      maxlength: 30,
       required: true,
       validate: {
         validator: (v) => validator.isURL(v),
@@ -31,7 +29,6 @@ const cardSchema = new mongoose.Schema(
     }],
     createdAt: {
       type: Date,
-      required: true,
       default: Date.now,
     },
   },
