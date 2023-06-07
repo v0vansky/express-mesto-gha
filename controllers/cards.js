@@ -31,13 +31,17 @@ const createCard = (req, res, next) => {
 };
 
 const deleteCard = (req, res, next) => {
-  Card.findByIdAndRemove(req.params.cardId)
+  Card.findById(req.params.cardId)
     .orFail(() => {
       throw new NotFoundError('Карточка не найдена.');
     })
     .then((card) => {
       if (req.user._id === card.owner.toString()) {
-        res.send({ data: card });
+        Card.deleteOne(card)
+          .then(() => {
+            res.send({ data: card });
+          })
+          .catch(next);
       } else {
         next(new ForbiddenError('У вас нет прав удалять чужие карточки.'));
       }
